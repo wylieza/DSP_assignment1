@@ -1,22 +1,16 @@
 disp("Handin 2");
-
+  clear
   hold off
 
-  w0 = pi/10;
   ri = -10;
   rf = 70;
   range = ri:1:rf;
   rlen = length(range);
   
-%  x = [];  
-%  for n = range;
-%    x = [x, u(n)*cos(w0*n)];
-%  end
-
-plot(range, x);
-
 function altxofn = altx(n)
-  w0 = pi/10;
+  %w0 = pi/10;
+  %w0 = 2*pi/5;
+  w0 = 4*pi/5;
   altxofn = u(n)*cos(w0*n);
 end
 
@@ -26,14 +20,28 @@ function hofx = h(x)
     hofx = 1/7;
   end
 end
+  
+  x = [];
+  arrh = [];
+  for n = range;
+    x = [x, altx(n)];
+    arrh = [arrh, h(n)];
+  end
+
+plot(range, x);
+
+
 
 y = zeros(rlen);
 index = 1;
 
 for n = range;
   for k = 0:1:6
-    y(n - ri +1) += h(k)*altx(n-k);
-    %y(n - ri +1) += h(k)*x(n -ri +1 -k); %Doesnt work because k sends it out of range
+    if((n -ri +1 -k) < 1)
+      y(n - ri +1) += 0;
+    else
+      y(n - ri +1) += h(k)*x(n -ri +1 -k);
+    endif
   end
   index += 1;
 end
@@ -42,4 +50,4 @@ disp("filterd");
 hold on
 plot(range, y);
 
-print(gcf, '-dpng', 'handin2a.png') %Save as png
+print(gcf, '-dpng', 'handin2c.png') %Save as png
