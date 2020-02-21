@@ -50,4 +50,9 @@ disp("filterd");
 hold on
 plot(range, y);
 
-print(gcf, '-dpng', 'handin2c.png') %Save as png
+%print(gcf, '-dpng', 'handin2c.png') %Save as png
+
+hold off
+figure()
+convTest = conv(x,arrh);
+plot (convTest);

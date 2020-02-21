@@ -6,13 +6,36 @@ rf = 70;
 arrn = ri:1:rf;
 range = length(arrn);
 
-w = pi/10;
+w = 4*pi/5;
 
-x = zeros(range);
-for n = arrn
-  x(n - ri+1) = u(n)*exp(j*w*n);
+function hofx = hof(x)
+  hofx = 0;
+  if (x >= 0 && x <=6)
+    hofx = 1/7;
+  end
 end
 
+x = zeros(range);
+h = zeros(range);
+for n = arrn
+  x(n - ri+1) = u(n)*exp(j*w*n);
+  h(n -ri+1) = hof(n);
+end
+
+y = conv2(x, h);
+
+subplot(2,1,1);
+hold on
 plot(real(x));
-figure();
+plot(real(y));
+subplot(2,1,2);
+hold on
 plot(imag(x));
+plot(imag(y));
+
+nvalue = 50;
+disp(abs(y(nvalue))/abs(x(nvalue)));
+
+disp((arg(y(nvalue))-arg(x(nvalue)))/pi);
+
+%print(gcf, '-dpng', 'handin3Bonus.png') %Save as png
