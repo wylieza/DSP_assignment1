@@ -29,6 +29,11 @@ for n = arrn
   h(n -ri+1) = hof(n);
 end
 
+h = zeros(range);
+for n = arrn
+  h(n -ri+1) = hof(n);
+end
+
 ht = zeros(range);
 for n = arrn
   ht(n -ri+1) = htof(n);
@@ -53,14 +58,42 @@ disp(arg(freqresp(ht, W)))
 
 arrW = 0:0.01:4*pi;
 arrH = [];
+arrh = [];
+
+for w = arrW
+  arrh = [arrh, freqresp(h, w)];
+end
 
 for w = arrW
   arrH = [arrH, freqresp(ht, w)];
 end
 
 subplot(2,1,1);
+plot(arrW, abs(arrh));
+title("Original - Bad LPF");
+legend("Frequency Response");
+xlabel("Frequency in radians");
+ylabel("Attenuation Factor");
+subplot(2,1,2);
+plot(arrW, arg(arrh));
+legend("Phase Response");
+xlabel("Frequency in radians");
+ylabel("Phase Shift");
+
+print(gcf, '-dpng', 'handin4original.png') %Save as png
+
+figure();
+
+subplot(2,1,1);
 plot(arrW, abs(arrH));
+title("Improved LPF");
+legend("Frequency Response");
+xlabel("Frequency in radians");
+ylabel("Attenuation Factor");
 subplot(2,1,2);
 plot(arrW, arg(arrH));
+legend("Phase Response");
+xlabel("Frequency in radians");
+ylabel("Phase Shift");
 
-%print(gcf, '-dpng', 'handin4imporved.png') %Save as png
+print(gcf, '-dpng', 'handin4imporved.png') %Save as png
